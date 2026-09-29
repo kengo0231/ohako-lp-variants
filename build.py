@@ -36,7 +36,7 @@ def fv_block(appeal, plan, cta_html):
     if appeal == 'beauty':
         return None  # 既存のまま
     if appeal == 'oneday':
-        area = 'OHAKO|送迎付き・1日貸切の体験型セルフエステ'
+        area = 'OHAKO|送迎付き・1日貸切のセルフエステ'
         catch = '送迎付きの、<br>セルフエステ。<br>サウナも、BBQも、焚火も。'
         benefit = '非日常を体験しながら、<br>キレイになる1日。'
         gets = ['<li><em>痩身エステ</em>｜脂肪・セルライトへ</li>', '<li><em>小顔ケア</em>｜表情筋を動かす</li>',
