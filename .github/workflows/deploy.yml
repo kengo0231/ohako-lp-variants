@@ -1,0 +1,29 @@
+# main に push されたら ohako-beautyresort.com/lp/ へFTPで反映する
+name: Deploy LP variants to production
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+concurrency: deploy-lp
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: FTP deploy (/lp/)
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASS }}
+          protocol: ftp
+          local-dir: ./
+          server-dir: /lp/
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            base/**
+            build.py
+            README.md
+            .gitignore
