@@ -1,0 +1,9 @@
+RewriteEngine Off
+Options -Indexes
+<FilesMatch "\.(json|py|md)$">
+  Require all denied
+</FilesMatch>
+<FilesMatch "^\.">
+  Require all denied
+</FilesMatch>
+AddDefaultCharset UTF-8

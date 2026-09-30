@@ -1,16 +1,17 @@
-# main に push されたら ohako-beautyresort.com/lp/ へFTPで反映する
-name: Deploy LP variants to production
+# main に push → 本番 ohako-beautyresort.com/lp/
+# preview に push → 確認用 ohako-beautyresort.com/lp-preview/ (Slackで承認後に main へマージ)
+name: Deploy LP variants
 on:
   push:
-    branches: [main]
+    branches: [main, preview]
   workflow_dispatch:
-concurrency: deploy-lp
+concurrency: deploy-lp-${{ github.ref_name }}
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: FTP deploy (/lp/)
+      - name: FTP deploy
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_HOST }}
@@ -18,7 +19,7 @@ jobs:
           password: ${{ secrets.FTP_PASS }}
           protocol: ftp
           local-dir: ./
-          server-dir: /lp/
+          server-dir: ${{ github.ref_name == 'main' && '/lp/' || '/lp-preview/' }}
           exclude: |
             **/.git*
             **/.git*/**
