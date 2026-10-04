@@ -37,7 +37,7 @@ def fv_block(appeal, plan, cta_html):
     if appeal == 'beauty':
         return None  # 既存のまま
     if appeal == 'big3':
-        area = 'OHAKO 那須塩原|完全貸切のセルフエステ'
+        area = 'OHAKO 那須塩原|貸切セルフエステ'
         catch = '最高級のマシンで過ごす、<br>貸切セルフエステ。'
         benefit = '顔も、身体も、骨盤底筋も。<br>3台×11種類を、4時間貸切で自分のペースで。'
         gets = ['<li><em>風 KAZE</em>｜RFでフェイス・ボディ</li>', '<li><em>森 MORI</em>｜7ヘッドのボディケア</li>',
