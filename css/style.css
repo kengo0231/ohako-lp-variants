@@ -740,3 +740,5 @@ ul, ol { list-style: none; }
 .machines__more { margin-top: 28px; background: rgba(193,154,91,.08); border: 1px dashed #c19a5b; border-radius: 14px; padding: 18px; }
 .machines__more h3 { margin: 0 0 8px; font-size: 18px; }
 .machines__more p { margin: 0 0 10px; font-size: 13.5px; color: #6d6458; }
+.mc__name small { font-size: 12px; letter-spacing: .3em; color: #a87f3f; margin-left: 8px; font-family: "Noto Serif JP", serif; }
+.mc__photo--mori img { object-position: center 35%; }

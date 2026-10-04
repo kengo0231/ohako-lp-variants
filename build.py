@@ -22,6 +22,7 @@ VARIANTS = [
     {'slug': 'oneday-book',   'appeal': 'oneday',   'cta': 'book', 'plan': '8h', 'label': '送迎付きセルフエステ with サウナ、BBQ、焚き火', 'cta_label': '予約ページ', 'plan_label': '1枠8時間', 'price_label': '1名2万円'},
     {'slug': 'machines-line', 'appeal': 'machines', 'cta': 'line', 'plan': '8h', 'label': 'マシン11種類も使える',                        'cta_label': 'LINE',   'plan_label': '1枠8時間', 'price_label': '1名2万円'},
     {'slug': 'machines-book', 'appeal': 'machines', 'cta': 'book', 'plan': '8h', 'label': 'マシン11種類も使える',                        'cta_label': '予約ページ', 'plan_label': '1枠8時間', 'price_label': '1名2万円'},
+    {'slug': 'big3-nasu-book', 'appeal': 'big3',   'cta': 'book', 'plan': '4h', 'label': '最高級の3大マシン(風・森・大地)×貸切セルフエステ・那須塩原', 'cta_label': '予約ページ', 'plan_label': '1枠4時間', 'price_label': '1名16,500円'},
 ]
 
 def rep(s, a, b, count=0, must=True):
@@ -35,6 +36,15 @@ FV_END_MARK = '    <p class="fv__small">'
 def fv_block(appeal, plan, cta_html):
     if appeal == 'beauty':
         return None  # 既存のまま
+    if appeal == 'big3':
+        area = 'OHAKO 那須塩原|完全貸切のセルフエステ'
+        catch = '最高級のマシンで過ごす、<br>貸切セルフエステ。'
+        benefit = '顔も、身体も、骨盤底筋も。<br>3台×11種類を、4時間貸切で自分のペースで。'
+        gets = ['<li><em>風 KAZE</em>｜RFでフェイス・ボディ</li>', '<li><em>森 MORI</em>｜7ヘッドのボディケア</li>',
+                '<li><em>大地 DAICHI</em>｜座って骨盤底筋ケア</li>', '<li><em>薪サウナ・水風呂・露天風呂</em>｜ととのう</li>', '<li><em>焚火ラウンジ</em>｜約30坪を貸切で</li>']
+        return ('    <p class="fv__area">%s</p>\n    <h1 class="fv__catch">%s</h1>\n    <p class="fv__benefit">%s</p>\n    <ul class="fv__gets">\n%s\n    </ul>\n'
+                '    <div class="fv__badge">\n      <span class="fv__badge-inc"><em>ぜんぶ込み</em>で4時間貸切</span>\n      <span class="fv__badge-now">1人 <em>16,500</em>円</span>\n    </div>\n%s'
+                '    <p class="fv__small">1時間あたり4,125円(1名・4時間)|料金はお1人様あたり・一律|最大6名</p>\n') % (area, catch, benefit, '\n'.join('      ' + g for g in gets), cta_html)
     if appeal == 'oneday':
         area = 'OHAKO|送迎付き・1日貸切のセルフエステ'
         catch = '送迎付きの、<br>セルフエステ。<br>サウナも、BBQも、焚火も。'
@@ -122,6 +132,110 @@ def apply_machines(s):
     s = rep(s, '<h3><span>価値 02</span>美容機器が、使い放題</h3>', '<h3><span>価値 02</span>美容マシン11種類が、使い放題</h3>')
     return s
 
+# ------------------------------------------------------------------ 3大マシン(風・森・大地)訴求・那須塩原版
+BIG3_MACHINES = '''    <article class="mc">
+      <div class="mc__photo"><img src="img/kaze-face.jpg" alt="風 KAZE のRFフェイスケア" loading="lazy" width="715" height="573"></div>
+      <div class="mc__body">
+        <p class="mc__tag">MACHINE 01</p>
+        <h3 class="mc__name">風 <small>KAZE</small></h3>
+        <p class="mc__sub">RFでフェイス・ボディ</p>
+        <p class="mc__catch">RFのやさしい温かさで、ハリのある肌へ。</p>
+        <p class="mc__desc">電気エネルギーで肌をじんわり温める、<strong>RF(ラジオ波)美容ケア</strong>。頬はFチップ、フェイスラインや二の腕はVチップと、部位に合わせて使い分けます。</p>
+        <div class="mc__result">
+          <p class="mc__result-ttl">目指す印象</p>
+          <ul>
+            <li>顔のハリ不足、輪郭まわりのゆるみが気になる方へ。<strong>ふっくらすっきりした印象を目指します</strong></li>
+            <li>温かさは「心地よい」が目安。<strong>熱く感じたらすぐにお伝えください</strong></li>
+          </ul>
+        </div>
+        <ul class="mc__parts"><li>頬</li><li>フェイスライン</li><li>二の腕</li></ul>
+      </div>
+    </article>
+
+    <article class="mc">
+      <div class="mc__photo mc__photo--mori"><img src="img/mori-scene.jpg" alt="森 MORI 本体" loading="lazy" width="481" height="1044"></div>
+      <div class="mc__body">
+        <p class="mc__tag">MACHINE 02</p>
+        <h3 class="mc__name">森 <small>MORI</small></h3>
+        <p class="mc__sub">7ヘッドのボディケア</p>
+        <p class="mc__catch">7つのヘッドから、今日の一本を。</p>
+        <p class="mc__desc">二の腕・お腹・太ももまで。形も働きも違う7ヘッドで、ボディをケア。<strong>日本で人気の3大マシン(オンダリフト・インディバナイフ・ハイフキャビテーション)</strong>がぜんぶ使えます。</p>
+        <div class="mc__result">
+          <p class="mc__result-ttl">7つのヘッド</p>
+          <ul>
+            <li><strong>オンダリフト 浅層用・深層用</strong>｜冷却と熱を組み合わせたヘッド。浅層用は二の腕、深層用はお腹・太ももへ</li>
+            <li><strong>インディバナイフ</strong>｜幅のある縁のナイフ型。温めながらやさしく触れる</li>
+            <li><strong>ハイフキャビテーション</strong>｜丸い2本組のヘッドで、温熱などの刺激を楽しむ</li>
+            <li><strong>EMSキャビテーション／ツボ押しRF／吸引RF</strong>｜ブラシ型・スティック型・カップ型の触れ心地</li>
+          </ul>
+        </div>
+        <ul class="mc__parts"><li>二の腕</li><li>お腹</li><li>太もも</li><li>肩・背中</li></ul>
+      </div>
+    </article>
+
+    <article class="mc">
+      <div class="mc__photo"><img src="img/daichi-seat.jpg" alt="大地 DAICHI の専用シート" loading="lazy" width="719" height="573"></div>
+      <div class="mc__body">
+        <p class="mc__tag">MACHINE 03</p>
+        <h3 class="mc__name">大地 <small>DAICHI</small></h3>
+        <p class="mc__sub">座って骨盤底筋ケア</p>
+        <p class="mc__catch">座ってケア。パルス × 「ぎゅっ」で、骨盤底筋へ。</p>
+        <p class="mc__desc">服を着たまま専用シートに座ると、<strong>磁気のパルスが骨盤底筋に届きます</strong>。そのリズムに合わせて、ご自身でも「ぎゅっ」と締める意識を。機械の刺激と自分の力、ダブルで筋肉を使う感覚をねらえます。</p>
+        <div class="mc__result">
+          <p class="mc__result-ttl">使い方は3ステップ</p>
+          <ul>
+            <li>パルスで筋肉が動く → <strong>合わせてぎゅっと締める</strong> → ふっとゆるめる</li>
+            <li>着替え不要。<strong>普段意識しにくい骨盤底筋へ</strong></li>
+          </ul>
+        </div>
+        <ul class="mc__parts"><li>骨盤底筋</li><li>からだの土台</li><li>着替え不要</li></ul>
+        <p class="mc__spec">※症状の改善を保証するものではありません。ペースメーカー等の植込み機器・体内金属がある方、妊娠中の方などは、ご利用前にスタッフへお伝えください。</p>
+      </div>
+    </article>
+
+'''
+
+def apply_big3(s):
+    s = rep(s, '<title>OHAKO|痩身も小顔もサウナも、4時間ぜんぶ込みで16,500円（那須塩原・つくば・成田）</title>',
+            '<title>OHAKO 那須塩原|最高級の3大マシンで過ごす、貸切セルフエステ。4時間ぜんぶ込みで1人16,500円</title>')
+    s = re.sub(r'<meta name="description" content="[^"]*">',
+               '<meta name="description" content="風・森・大地の3台・11種類。日本で人気の3大マシン(オンダリフト・インディバナイフ・ハイフキャビテーション)を含むセルフエステを、約30坪まるごと貸切の4時間で、自分のペースで。薪サウナ・水風呂・露天風呂・焚火ラウンジも込みで1人16,500円。OHAKO 那須塩原。">', s, count=1)
+    # Sec.2 共感: 相場の金額は入れない
+    s = re.sub(r'    <p class="empathy__price">.*?</p>\n    <p class="empathy__voice">.*?</p>\n    <p class="empathy__body">.*?</p>',
+               '    <p class="empathy__voice">「いいマシンほど、<br class="sp">手が届かない」</p>\n    <p class="empathy__body">OHAKOなら、日本で人気の3大マシンを含む<br>全3台・11種類を、貸切で心ゆくまで。</p>', s, count=1, flags=re.S)
+    # Sec.3 OHAKOとは
+    s = rep(s, '<h2 class="sec__title">痩身エステも小顔ケアも、<br>自分のペースで。</h2>', '<h2 class="sec__title">最高級のマシンを、<br>自分のペースで。</h2>')
+    s = rep(s, '<h3><span>価値 02</span>美容機器が、使い放題</h3>', '<h3><span>価値 02</span>美容マシン3台・11種類が、使い放題</h3>')
+    s = rep(s, '          <li>痩身エステ(オンダリフト)</li>\n          <li>小顔ケア(表情筋パルス)</li>\n          <li>ボディメイク(筋肉パルス)</li>',
+            '          <li>風 KAZE(RFでフェイス・ボディ)</li>\n          <li>森 MORI(7ヘッドのボディケア)</li>\n          <li>大地 DAICHI(座って骨盤底筋ケア)</li>')
+    # Sec.4 相場比較は入れない(景表法配慮)
+    s = re.sub(r'<!-- Sec\.4 証拠①: 相場比較 -->.*?</section>\n\n', '', s, count=1, flags=re.S)
+    # Sec.5 導入機器を風・森・大地に
+    s = rep(s, '<h2 class="sec__title">痩身エステも、小顔ケアも。<br>この3台を、好きなだけ。</h2>', '<h2 class="sec__title">風・森・大地。<br>3台・11種類を、好きなだけ。</h2>')
+    s = rep(s, '<p class="sec__body">OHAKOは完全セルフ型。<br>使い方は当日ご案内します。回数も順番も自由です。</p>',
+            '<p class="sec__body">OHAKOは完全セルフ型。<br>使用部位・当て方・設定は当日スタッフがご案内します。回数も順番も自由です。</p>')
+    i = s.index('    <article class="mc">'); j = s.index('    <p class="machines__closing">')
+    s = s[:i] + BIG3_MACHINES + s[j:]
+    s = rep(s, '<p class="machines__closing">※導入マシンは店舗により異なります。</p>',
+            '<p class="machines__closing">※ケアの目的は目指す印象を示すもので、効果や結果を保証するものではありません。感じ方には個人差があります。</p>')
+    # Sec.5.5 流れ
+    s = rep(s, '<span class="cycle__how">筋肉パルス・表情筋パルス</span>', '<span class="cycle__how">大地(骨盤底筋)・風(RF)</span>')
+    s = rep(s, '<span class="cycle__how">オンダリフト</span>', '<span class="cycle__how">森(7ヘッドのボディケア)</span>')
+    s = rep(s, '<p class="get__desc">痩身エステでボディを、小顔ケアでフェイスラインを。気になっていたラインが、すっきりとした印象へ。</p>',
+            '<p class="get__desc">森でボディを、風でフェイスラインを。気になっていたラインが、すっきりとした印象を目指せます。</p>')
+    # Sec.9 料金に含まれるもの
+    s = rep(s, '      <li>筋肉パルス</li>\n      <li>表情筋パルス</li>\n      <li>オンダリフト</li>', '      <li>風(RF)</li>\n      <li>森(7ヘッド)</li>\n      <li>大地(骨盤底筋)</li>')
+    return s
+
+def only_nasu(s):
+    """施設一覧を那須塩原だけにする(予約リンク付与後に呼ぶ)"""
+    s = rep(s, '<h2 class="sec__title">施設一覧</h2>', '<h2 class="sec__title">アクセス</h2>')
+    s = re.sub(r'      <li class="shop">\n        <div class="shop__map">\n          <iframe\n            src="[^"]*"\n            title="OHAKO (つくば|成田)の地図".*?      </li>\n', '', s, flags=re.S)
+    assert 'OHAKO つくば' not in s and 'OHAKO 成田' not in s, 'shop removal failed'
+    s = rep(s, '<p class="shop__note">ご予約時に、ご希望の施設をお選びいただけます。</p>',
+            '<p class="shop__note">那須塩原駅(東北新幹線)から。東京駅から新幹線で約70分。お車の方は施設の駐車場(無料)をご利用ください。</p>')
+    return s
+
 # ------------------------------------------------------------------ 予約ページ導線
 def apply_book(s, plan):
     url = BOOK_8H if plan == '8h' else BOOK_4H
@@ -149,6 +263,8 @@ EXTRA_CSS = '''
 .machines__more { margin-top: 28px; background: rgba(193,154,91,.08); border: 1px dashed #c19a5b; border-radius: 14px; padding: 18px; }
 .machines__more h3 { margin: 0 0 8px; font-size: 18px; }
 .machines__more p { margin: 0 0 10px; font-size: 13.5px; color: #6d6458; }
+.mc__name small { font-size: 12px; letter-spacing: .3em; color: #a87f3f; margin-left: 8px; font-family: "Noto Serif JP", serif; }
+.mc__photo--mori img { object-position: center 35%; }
 '''
 
 os.makedirs(os.path.join(ROOT, 'css'), exist_ok=True)
@@ -166,12 +282,16 @@ for v in VARIANTS:
         s = apply_8h(s)
     if v['appeal'] == 'machines':
         s = apply_machines(s)
+    if v['appeal'] == 'big3':
+        s = apply_big3(s)
     blk = fv_block(v['appeal'], v['plan'], CTA_LINE)
     if blk:
         i = s.index(FV_START); j = s.index(FV_END_MARK); j = s.index('</p>', j) + len('</p>\n')
         s = s[:i] + blk + s[j:]
     if v['cta'] == 'book':
         s = apply_book(s, v['plan'])
+    if v['appeal'] == 'big3':
+        s = only_nasu(s)
     # 共有アセットへの相対パス
     s = s.replace('href="css/', 'href="../css/').replace('src="img/', 'src="../img/').replace('href="privacy.html"', 'href="../privacy.html"').replace('href="legal.html"', 'href="../legal.html"')
     # 識別用コメント
