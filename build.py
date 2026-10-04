@@ -275,6 +275,12 @@ shutil.copytree(os.path.join(ROOT, 'base', 'img'), os.path.join(ROOT, 'img'))
 for f in ('legal.html', 'privacy.html'):
     shutil.copy(os.path.join(ROOT, 'base', f), os.path.join(ROOT, f))
 
+# 静的な派生版(別ツールで生成したフォルダをそのまま置く)。一覧表にだけ載せる
+STATIC = [
+    {'slug': 'premium-book', 'label': '最高級のマシン×贅沢なセルフエステ(予約ページと同じデザイン案v14)・那須塩原', 'cta_label': '予約ページ', 'plan_label': '4h/8h/夜間/特別', 'price_label': '1時間あたり3,300円〜',
+     '_note': 'ohako-booking で python3 build.py --lp ../ohako-lp-variants/premium-book を実行して生成(css/img も複製される)'},
+]
+
 rows = []
 for v in VARIANTS:
     s = BASE
@@ -301,6 +307,9 @@ for v in VARIANTS:
     open(os.path.join(out, 'index.html'), 'w', encoding='utf-8').write(s)
     rows.append(v)
     print('built', v['slug'])
+for v in STATIC:
+    if os.path.isdir(os.path.join(ROOT, v['slug'])):
+        rows.append(v)
 
 table = '\n'.join('      <tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td><a href="%s/">開く</a></td></tr>' % (
     html.escape(v['label']), v['cta_label'], v['plan_label'], v['price_label'], v['slug']) for v in rows)
